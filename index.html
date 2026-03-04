@@ -213,7 +213,7 @@
         #close-settings {
             width: 100%;
             padding: 15px;
-            background: #607D8B;
+            background: var(--btn-primary); /* 「つぎへ」ボタンと同じ色に変更 */
             color: white;
             border: none;
             border-radius: 10px;
@@ -270,9 +270,9 @@
         <div class="setting-row">
             <label class="main-label">個数（最小 〜 最大）</label>
             <div class="number-input-group">
-                <input type="number" id="min-count" value="3" min="1" max="20">
+                <input type="number" id="min-count" value="15" min="1" max="20">
                 <span>個 〜 </span>
-                <input type="number" id="max-count" value="8" min="1" max="20">
+                <input type="number" id="max-count" value="20" min="1" max="20">
                 <span>個</span>
             </div>
         </div>
@@ -293,17 +293,23 @@
                 <div style="grid-column: span 2;">
                     <div style="font-size:0.9rem; margin-bottom:4px;">表示のルール</div>
                     <select id="color-rule" style="width:100%">
-                        <option value="normal" selected>そのまま（絵文字）</option>
-                        <option value="rotate">回転あり</option>
+                        <option value="normal">そのまま（絵文字）</option>
+                        <option value="rotate" selected>回転あり</option>
                     </select>
                 </div>
                 <div>
                     <div style="font-size:0.9rem; margin-bottom:4px;">大きさ</div>
-                    <select id="size-rule" style="width:100%"><option value="uniform">同じ大きさ</option><option value="random">大小バラバラ</option></select>
+                    <select id="size-rule" style="width:100%">
+                        <option value="uniform">同じ大きさ</option>
+                        <option value="random" selected>大小バラバラ</option>
+                    </select>
                 </div>
                 <div>
                     <div style="font-size:0.9rem; margin-bottom:4px;">回答方法</div>
-                    <select id="answer-mode" style="width:100%"><option value="buttons">2択ボタン</option><option value="none">ボタンなし</option></select>
+                    <select id="answer-mode" style="width:100%">
+                        <option value="buttons">2択ボタン</option>
+                        <option value="none" selected>ボタンなし</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -328,13 +334,13 @@
          * アプリの設定と状態管理
          */
         const config = {
-            shapes: ['smile'], // 初期値を変更
+            shapes: ['smile'], 
             time: 700,
-            min: 3,
-            max: 8,
-            color: 'normal',
-            size: 'uniform',
-            answer: 'buttons'
+            min: 15, // 初期値を15に変更
+            max: 20, // 初期値を20に変更
+            color: 'rotate', // 初期値を回転ありに変更
+            size: 'random', // 初期値をバラバラに変更
+            answer: 'none' // 初期値をボタンなしに変更
         };
 
         const state = {
@@ -344,7 +350,7 @@
             active: false
         };
 
-        // 絵文字マップ（顔文字に変更）
+        // 絵文字マップ（顔文字）
         const EMOJI = {
             smile: '😀',
             laugh: '😂',
@@ -435,7 +441,7 @@
             clearAllShapes();
 
             // 問題データ生成
-            const types = config.shapes.length ? config.shapes : ['smile']; // デフォルトをsmileに
+            const types = config.shapes.length ? config.shapes : ['smile'];
 
             // 個数決定
             let minC = parseInt(config.min);
