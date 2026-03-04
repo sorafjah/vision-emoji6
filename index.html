@@ -196,6 +196,38 @@
         }
         .number-input-group input { width: 80px; text-align: center; }
 
+        /* ランダム選択エリアのスタイル */
+        .random-select-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            background: #f0f8ff;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .random-select-group input[type="number"] {
+            width: 70px;
+            text-align: center;
+            padding: 5px;
+        }
+        #btn-random-select {
+            background-color: var(--choice-bg); /* 水色 */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+        #btn-random-select:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+
         .check-group { display: flex; gap: 20px; flex-wrap: wrap; }
         .check-group label {
             display: flex;
@@ -213,7 +245,7 @@
         #close-settings {
             width: 100%;
             padding: 15px;
-            background: var(--btn-primary); /* 「つぎへ」ボタンと同じ色に変更 */
+            background: var(--btn-primary); /* 「つぎへ」ボタンと同じ色 */
             color: white;
             border: none;
             border-radius: 10px;
@@ -243,15 +275,22 @@
 
         <div class="setting-row">
             <label class="main-label">表示する絵</label>
+            
+            <div class="random-select-group">
+                <input type="number" id="random-count" value="7" min="1" max="16">
+                <span>種類を</span>
+                <button id="btn-random-select">ランダムに選ぶ</button>
+            </div>
+
             <div class="check-group">
                 <label><input type="checkbox" class="shape-check" value="smile" checked><span class="emoji-mini">😀</span> 笑顔</label>
-                <label><input type="checkbox" class="shape-check" value="laugh"><span class="emoji-mini">😂</span> 爆笑</label>
-                <label><input type="checkbox" class="shape-check" value="wink"><span class="emoji-mini">😉</span> ウインク</label>
-                <label><input type="checkbox" class="shape-check" value="heart"><span class="emoji-mini">😍</span> ハート目</label>
+                <label><input type="checkbox" class="shape-check" value="laugh" checked><span class="emoji-mini">😂</span> 爆笑</label>
+                <label><input type="checkbox" class="shape-check" value="wink" checked><span class="emoji-mini">😉</span> ウインク</label>
+                <label><input type="checkbox" class="shape-check" value="heart" checked><span class="emoji-mini">😍</span> ハート目</label>
                 
-                <label><input type="checkbox" class="shape-check" value="sunglasses"><span class="emoji-mini">😎</span> サングラス</label>
-                <label><input type="checkbox" class="shape-check" value="thinking"><span class="emoji-mini">🤔</span> 考える</label>
-                <label><input type="checkbox" class="shape-check" value="sleeping"><span class="emoji-mini">😴</span> 寝顔</label>
+                <label><input type="checkbox" class="shape-check" value="sunglasses" checked><span class="emoji-mini">😎</span> サングラス</label>
+                <label><input type="checkbox" class="shape-check" value="thinking" checked><span class="emoji-mini">🤔</span> 考える</label>
+                <label><input type="checkbox" class="shape-check" value="sleeping" checked><span class="emoji-mini">😴</span> 寝顔</label>
                 <label><input type="checkbox" class="shape-check" value="crying"><span class="emoji-mini">😭</span> 泣き顔</label>
 
                 <label><input type="checkbox" class="shape-check" value="angry"><span class="emoji-mini">😡</span> 怒り</label>
@@ -334,17 +373,17 @@
          * アプリの設定と状態管理
          */
         const config = {
-            shapes: ['smile'], 
+            shapes: ['smile', 'laugh', 'wink', 'heart', 'sunglasses', 'thinking', 'sleeping'], // 初期値7種類
             time: 700,
-            min: 15, // 初期値を15に変更
-            max: 20, // 初期値を20に変更
-            color: 'rotate', // 初期値を回転ありに変更
-            size: 'random', // 初期値をバラバラに変更
-            answer: 'none' // 初期値をボタンなしに変更
+            min: 15,
+            max: 20, 
+            color: 'rotate', 
+            size: 'random',
+            answer: 'none'
         };
 
         const state = {
-            layoutItems: [], // 座標・サイズを含めた確定情報
+            layoutItems: [], 
             target: '',
             count: 0,
             active: false
@@ -379,7 +418,6 @@
          */
         function getEmojiHTML(type) {
             const ch = EMOJI[type] || '❓';
-            // span にして size をCSSで制御できるようにする
             return `<span class="emoji" aria-hidden="true">${ch}</span>`;
         }
 
@@ -397,22 +435,22 @@
 
             const t = audioCtx.currentTime;
 
-            if (type === 'pop') { // 出現音
+            if (type === 'pop') { 
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(600, t);
                 gain.gain.setValueAtTime(0.1, t);
                 gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
                 osc.start(t);
                 osc.stop(t + 0.1);
-            } else if (type === 'correct') { // 正解ピンポン
+            } else if (type === 'correct') { 
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(1046.5, t); // C6
-                osc.frequency.setValueAtTime(2093.0, t + 0.1); // C7
+                osc.frequency.setValueAtTime(1046.5, t); 
+                osc.frequency.setValueAtTime(2093.0, t + 0.1); 
                 gain.gain.setValueAtTime(0.3, t);
                 gain.gain.exponentialRampToValueAtTime(0.01, t + 0.5);
                 osc.start(t);
                 osc.stop(t + 0.5);
-            } else if (type === 'wrong') { // 不正解ブブー
+            } else if (type === 'wrong') { 
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(150, t);
                 osc.frequency.linearRampToValueAtTime(100, t + 0.3);
@@ -423,9 +461,6 @@
             }
         }
 
-        /**
-         * 待機関数
-         */
         const wait = (ms) => new Promise(r => setTimeout(r, ms));
 
         /**
@@ -435,59 +470,46 @@
             if (state.active) return;
             state.active = true;
 
-            updateConfig(); // 設定反映
+            updateConfig(); 
             resetUI();
-
             clearAllShapes();
 
-            // 問題データ生成
+            // 設定で1つも選ばれていない場合の保険としてsmileを入れる
             const types = config.shapes.length ? config.shapes : ['smile'];
 
-            // 個数決定
             let minC = parseInt(config.min);
             let maxC = parseInt(config.max);
             if (minC > maxC) [minC, maxC] = [maxC, minC];
             const num = Math.floor(Math.random() * (maxC - minC + 1)) + minC;
 
             let tempItems = [];
-
-            // 絵文字タイプをランダムに決定
             for (let i = 0; i < num; i++) {
                 tempItems.push(types[Math.floor(Math.random() * types.length)]);
             }
 
-            // 実際に存在する中からターゲットを選ぶ
             const existing = [...new Set(tempItems)];
             state.target = existing[Math.floor(Math.random() * existing.length)];
-
-            // 正解数
             state.count = tempItems.filter(x => x === state.target).length;
 
-            // レイアウト生成（座標・サイズを確定）
             generateLayout(tempItems);
 
-            // --- 1. 予告フェーズ ---
             const msgHtml = `${getEmojiHTML(state.target)} は いくつ？`;
             document.getElementById('message-overlay').innerHTML = msgHtml;
 
-            await wait(1000); // 1秒予告
+            await wait(1000); 
 
-            // --- 2. ブランク ---
             document.getElementById('message-overlay').innerHTML = '';
             await wait(300);
 
-            // --- 3. フラッシュ ---
-            renderItems(false); // 表示
+            renderItems(false); 
             playSound('pop');
             await wait(config.time);
 
-            renderItems(true); // 非表示
+            renderItems(true); 
 
-            // --- 4. 回答受付 ---
-            document.getElementById('message-overlay').innerHTML = msgHtml; // 質問再表示
+            document.getElementById('message-overlay').innerHTML = msgHtml; 
 
             if (config.answer === 'buttons') {
-                // ダミーの回答生成
                 let wrong = state.count + (Math.random() > 0.5 ? 1 : -1);
                 if (wrong < 1) wrong = state.count + 2;
                 if (wrong === state.count) wrong = state.count + 1;
@@ -505,33 +527,26 @@
                 btn1.style.display = 'block';
                 btn2.style.display = 'block';
             } else {
-                // ボタンなしモード
                 document.getElementById('btn-check').style.display = 'block';
             }
 
             state.active = false;
         }
 
-        /**
-         * レイアウト生成（座標・サイズを確定しstateに保存）
-         */
         function generateLayout(itemTypes) {
             const area = document.getElementById('game-area');
             const w = area.clientWidth;
             const h = area.clientHeight;
 
-            // 画面サイズと個数に基づいて「絵文字の見た目サイズ（px）」を計算
-            // ※ 絵文字はフォントサイズで制御する
             const basePx = Math.min(Math.max(Math.sqrt((w * h) / (itemTypes.length * 3)), 70), 220);
 
-            state.layoutItems = []; // リセット
+            state.layoutItems = []; 
             const placed = [];
 
             itemTypes.forEach(type => {
                 const px = config.size === 'random' ? basePx * (0.75 + Math.random() * 0.55) : basePx;
                 let x, y, overlap, tries = 0;
 
-                // 重ならない位置を探す
                 do {
                     overlap = false;
                     x = Math.random() * (w - px) + px / 2;
@@ -547,31 +562,20 @@
 
                 placed.push({ x, y, px });
 
-                // 回転（表示ルールが「回転あり」のときだけ）
                 const rot = (config.color === 'rotate') ? Math.floor(Math.random() * 360) : 0;
 
                 state.layoutItems.push({
-                    type,
-                    x,
-                    y,
-                    px,
-                    rot
+                    type, x, y, px, rot
                 });
             });
         }
 
-        /**
-         * 絵文字を全消去する
-         */
         function clearAllShapes() {
             const area = document.getElementById('game-area');
             const old = area.querySelectorAll('.shape');
             old.forEach(e => e.remove());
         }
 
-        /**
-         * 絵文字描画（保存されたレイアウトを使用）
-         */
         function renderItems(hidden) {
             clearAllShapes();
             if (hidden) return;
@@ -581,13 +585,10 @@
             state.layoutItems.forEach(item => {
                 const el = document.createElement('div');
                 el.className = 'shape';
-                // 衝突判定用に枠を px で作り、絵文字も同じ大きさに合わせる
                 el.style.width = item.px + 'px';
                 el.style.height = item.px + 'px';
                 el.style.left = item.x + 'px';
                 el.style.top = item.y + 'px';
-
-                // 表示ルール：回転あり
                 el.style.transform = `translate(-50%, -50%) rotate(${item.rot || 0}deg)`;
 
                 el.innerHTML = getEmojiHTML(item.type);
@@ -598,9 +599,6 @@
             });
         }
 
-        /**
-         * 回答チェック
-         */
         function checkAnswer(val) {
             if (val === state.count) {
                 playSound('correct');
@@ -610,18 +608,11 @@
             finishGame();
         }
 
-        // 先生用「こたえ」ボタン
         document.getElementById('btn-check').onclick = finishGame;
 
-        /**
-         * ゲーム終了・正解表示
-         */
         function finishGame() {
-            renderItems(false); // 絵文字を再表示
-
-            // 正解の文字は表示しない
+            renderItems(false); 
             document.getElementById('message-overlay').innerHTML = '';
-
             document.getElementById('btn-choice-1').style.display = 'none';
             document.getElementById('btn-choice-2').style.display = 'none';
             document.getElementById('btn-check').style.display = 'none';
@@ -651,6 +642,36 @@
             config.answer = document.getElementById('answer-mode').value;
         }
 
+        // ランダム選択ボタンの処理
+        document.getElementById('btn-random-select').addEventListener('click', () => {
+            const countInput = document.getElementById('random-count');
+            let count = parseInt(countInput.value, 10);
+            const checkboxes = Array.from(document.querySelectorAll('.shape-check'));
+
+            // エラー処理（1〜16の範囲に収める）
+            if (isNaN(count) || count < 1) count = 1;
+            if (count > checkboxes.length) count = checkboxes.length;
+            countInput.value = count;
+
+            // 一旦すべてのチェックを外す
+            checkboxes.forEach(cb => cb.checked = false);
+
+            // チェックボックスの配列をシャッフル
+            const shuffled = [...checkboxes];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+
+            // 指定された数だけチェックを入れる
+            for (let i = 0; i < count; i++) {
+                shuffled[i].checked = true;
+            }
+
+            // 設定を即座に更新
+            updateConfig();
+        });
+
         const modal = document.getElementById('settings-modal');
         const overlay = document.getElementById('modal-overlay');
 
@@ -668,7 +689,6 @@
         document.getElementById('close-settings').onclick = closeFunc;
         overlay.onclick = closeFunc;
 
-        // スタートボタン
         document.getElementById('btn-start').onclick = playSequence;
 
         // 初期ロード時に設定反映
