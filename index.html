@@ -38,7 +38,7 @@
         }
 
         #message-overlay {
-            font-size: 5rem;
+            font-size: 4rem;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -46,16 +46,17 @@
             gap: 20px;
             z-index: 20;
             pointer-events: none;
-            text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.7);
             width: 100%;
             text-align: center;
             height: 100%;
         }
 
         #message-overlay .emoji {
-            font-size: 7rem;
+            font-size: 5rem;
             line-height: 1;
             filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2));
+            white-space: nowrap;
         }
 
         .shape {
@@ -66,10 +67,18 @@
             align-items: center;
             pointer-events: none;
         }
+        
         .shape .emoji {
             line-height: 1;
-            filter: drop-shadow(3px 3px 2px rgba(0,0,0,0.15));
+            font-weight: bold;
+            text-shadow: 
+                2px 2px 0px #fff, -2px -2px 0px #fff, 
+                2px -2px 0px #fff, -2px 2px 0px #fff,
+                2px 0px 0px #fff, -2px 0px 0px #fff,
+                0px 2px 0px #fff, 0px -2px 0px #fff;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.2));
             display: block;
+            white-space: nowrap;
         }
 
         #action-bar {
@@ -142,7 +151,7 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.4);
             z-index: 200;
             width: 90%;
-            max-width: 600px;
+            max-width: 650px;
             max-height: 90vh;
             overflow-y: auto;
             color: #333;
@@ -179,6 +188,37 @@
             background: #fff;
         }
 
+        .random-select-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f0f8ff;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .random-select-group input[type="number"] {
+            width: 70px;
+            text-align: center;
+            font-weight: bold;
+        }
+        #btn-random-select {
+            background-color: #00BFFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #009ACD;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        #btn-random-select:active {
+            transform: translateY(3px);
+            box-shadow: none;
+        }
+
         .number-input-group {
             display: flex;
             align-items: center;
@@ -187,38 +227,7 @@
         }
         .number-input-group input { width: 80px; text-align: center; }
 
-        .random-select-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            background: #f0f8ff;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        .random-select-group input[type="number"] {
-            width: 70px;
-            text-align: center;
-            padding: 5px;
-        }
-        #btn-random-select {
-            background-color: var(--choice-bg);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 8px 16px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            transition: transform 0.1s;
-        }
-        #btn-random-select:active {
-            transform: translateY(2px);
-            box-shadow: none;
-        }
-
-        .check-group { display: flex; gap: 20px; flex-wrap: wrap; }
+        .check-group { display: flex; gap: 15px; flex-wrap: wrap; }
         .check-group label {
             display: flex;
             align-items: center;
@@ -230,7 +239,7 @@
             border-radius: 20px;
         }
         .check-group input[type="checkbox"] { transform: scale(1.3); }
-        .check-group .emoji-mini { font-size: 1.4rem; line-height: 1; }
+        .check-group .emoji-mini { font-size: 1.2rem; line-height: 1; font-weight: bold; }
 
         #close-settings {
             width: 100%;
@@ -263,44 +272,44 @@
         <h2>せってい</h2>
 
         <div class="setting-row">
-            <label class="main-label">表示する絵</label>
+            <label class="main-label">表示する顔文字</label>
             
             <div class="random-select-group">
                 <input type="number" id="random-count" value="7" min="1" max="16">
-                <span>種類を</span>
-                <button id="btn-random-select">ランダムに選ぶ</button>
+                <span style="font-size: 1.2rem; font-weight: bold;">種類を</span>
+                <button id="btn-random-select" type="button">ランダムに選ぶ</button>
             </div>
 
             <div class="check-group">
-                <label><input type="checkbox" class="shape-check" value="smile"><span class="emoji-mini">😀</span> 笑顔</label>
-                <label><input type="checkbox" class="shape-check" value="laugh"><span class="emoji-mini">😂</span> 爆笑</label>
-                <label><input type="checkbox" class="shape-check" value="wink"><span class="emoji-mini">😉</span> ウインク</label>
-                <label><input type="checkbox" class="shape-check" value="heart"><span class="emoji-mini">😍</span> ハート目</label>
+                <label><input type="checkbox" class="shape-check" value="face1"><span class="emoji-mini">(*'▽')</span> にっこり</label>
+                <label><input type="checkbox" class="shape-check" value="face2"><span class="emoji-mini">( ´∀｀ )</span> ほっこり</label>
+                <label><input type="checkbox" class="shape-check" value="face3"><span class="emoji-mini">(・∀・)</span> キリッ</label>
+                <label><input type="checkbox" class="shape-check" value="face4"><span class="emoji-mini">(￣▽￣)</span> ニヤリ</label>
                 
-                <label><input type="checkbox" class="shape-check" value="sunglasses"><span class="emoji-mini">😎</span> サングラス</label>
-                <label><input type="checkbox" class="shape-check" value="thinking"><span class="emoji-mini">🤔</span> 考える</label>
-                <label><input type="checkbox" class="shape-check" value="sleeping"><span class="emoji-mini">😴</span> 寝顔</label>
-                <label><input type="checkbox" class="shape-check" value="crying"><span class="emoji-mini">😭</span> 泣き顔</label>
+                <label><input type="checkbox" class="shape-check" value="face5"><span class="emoji-mini">(&gt;_&lt;)</span> いてて</label>
+                <label><input type="checkbox" class="shape-check" value="face6"><span class="emoji-mini">( ﾟДﾟ)</span> びっくり</label>
+                <label><input type="checkbox" class="shape-check" value="face7"><span class="emoji-mini">( *´艸｀)</span> うふふ</label>
+                <label><input type="checkbox" class="shape-check" value="face8"><span class="emoji-mini">( ˘ω˘ )</span> すやぁ</label>
 
-                <label><input type="checkbox" class="shape-check" value="angry"><span class="emoji-mini">😡</span> 怒り</label>
-                <label><input type="checkbox" class="shape-check" value="surprised"><span class="emoji-mini">😲</span> びっくり</label>
-                <label><input type="checkbox" class="shape-check" value="party"><span class="emoji-mini">🥳</span> パーティ</label>
+                <label><input type="checkbox" class="shape-check" value="face9"><span class="emoji-mini">(≧▽≦)</span> わーい</label>
+                <label><input type="checkbox" class="shape-check" value="face10"><span class="emoji-mini">(´；ω；`)</span> ぴえん</label>
+                <label><input type="checkbox" class="shape-check" value="face11"><span class="emoji-mini">(｀・ω・´)</span> シャキーン</label>
 
-                <label><input type="checkbox" class="shape-check" value="cold"><span class="emoji-mini">🥶</span> 寒い</label>
-                <label><input type="checkbox" class="shape-check" value="hot"><span class="emoji-mini">🥵</span> 暑い</label>
-                <label><input type="checkbox" class="shape-check" value="mask"><span class="emoji-mini">😷</span> マスク</label>
+                <label><input type="checkbox" class="shape-check" value="dog"><span class="emoji-mini">(Ｕ・ω・Ｕ)</span> いぬ</label>
+                <label><input type="checkbox" class="shape-check" value="cat"><span class="emoji-mini">(=^・^=)</span> ねこ</label>
+                <label><input type="checkbox" class="shape-check" value="fish"><span class="emoji-mini">(゜))&lt;&lt;</span> さかな</label>
 
-                <label><input type="checkbox" class="shape-check" value="angel"><span class="emoji-mini">😇</span> 天使</label>
-                <label><input type="checkbox" class="shape-check" value="devil"><span class="emoji-mini">😈</span> 悪魔</label>
+                <label><input type="checkbox" class="shape-check" value="bear"><span class="emoji-mini">(・(ｪ)・)</span> くま</label>
+                <label><input type="checkbox" class="shape-check" value="pig"><span class="emoji-mini">( ´(00)ˋ )</span> ぶた</label>
             </div>
         </div>
 
         <div class="setting-row">
             <label class="main-label">個数（最小 〜 最大）</label>
             <div class="number-input-group">
-                <input type="number" id="min-count" value="7" min="1" max="20">
+                <input type="number" id="min-count" value="15" min="1" max="50">
                 <span>個 〜 </span>
-                <input type="number" id="max-count" value="12" min="1" max="20">
+                <input type="number" id="max-count" value="20" min="1" max="50">
                 <span>個</span>
             </div>
         </div>
@@ -318,10 +327,10 @@
         <div class="setting-row">
             <label class="main-label">詳細ルール</label>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                <div style="grid-column: span 2;">
+                <div>
                     <div style="font-size:0.9rem; margin-bottom:4px;">表示のルール</div>
                     <select id="color-rule" style="width:100%">
-                        <option value="normal" selected>そのまま（絵文字）</option>
+                        <option value="normal" selected>そのまま</option>
                         <option value="rotate">回転あり</option>
                     </select>
                 </div>
@@ -330,6 +339,13 @@
                     <select id="size-rule" style="width:100%">
                         <option value="uniform">同じ大きさ</option>
                         <option value="random" selected>大小バラバラ</option>
+                    </select>
+                </div>
+                <div>
+                    <div style="font-size:0.9rem; margin-bottom:4px;">色分け</div>
+                    <select id="color-variation" style="width:100%">
+                        <option value="on" selected>色を変える</option>
+                        <option value="off">すべて同じ色</option>
                     </select>
                 </div>
                 <div>
@@ -352,7 +368,6 @@
     <div id="action-bar">
         <button id="btn-choice-1" class="choice-btn"></button>
         <button id="btn-choice-2" class="choice-btn"></button>
-
         <button id="btn-start" class="btn-sm">つぎへ ▶</button>
         <button id="btn-check" class="btn-sm">こたえ</button>
     </div>
@@ -361,10 +376,11 @@
         const config = {
             shapes: [],
             time: 700,
-            min: 7,
-            max: 12,
-            color: 'normal',
-            size: 'random',
+            min: 15,
+            max: 20,
+            color: 'normal',  // 回転なし
+            size: 'random',   // 大小バラバラ
+            colorVar: 'on',   // 色を変える
             answer: 'none'
         };
 
@@ -372,30 +388,36 @@
             layoutItems: [],
             target: '',
             count: 0,
-            active: false
+            active: false,
+            activeColors: {}
         };
 
         const EMOJI = {
-            smile: '😀',
-            laugh: '😂',
-            wink: '😉',
-            heart: '😍',
-            sunglasses: '😎',
-            thinking: '🤔',
-            sleeping: '😴',
-            crying: '😭',
-            angry: '😡',
-            surprised: '😲',
-            party: '🥳',
-            cold: '🥶',
-            hot: '🥵',
-            mask: '😷',
-            angel: '😇',
-            devil: '😈'
+            face1: "(*'▽')",
+            face2: "( ´∀｀ )",
+            face3: "(・∀・)",
+            face4: "(￣▽￣)",
+            face5: "(>_<)",
+            face6: "( ﾟДﾟ)",
+            face7: "( *´艸｀)",
+            face8: "( ˘ω˘ )",
+            face9: "(≧▽≦)",
+            face10: "(´；ω；`)",
+            face11: "(｀・ω・´)",
+            dog: "(Ｕ・ω・Ｕ)",
+            cat: "(=^・^=)",
+            fish: "(゜))<<",
+            bear: "(・(ｪ)・)",
+            pig: "( ´(00)ˋ )"
         };
 
+        const PALETTE = [
+            '#D32F2F', '#1976D2', '#388E3C', '#F57C00', 
+            '#7B1FA2', '#5D4037', '#C2185B', '#00796B'
+        ];
+
         function getEmojiHTML(type) {
-            const ch = EMOJI[type] || '❓';
+            const ch = EMOJI[type] || '(・ω・)';
             return `<span class="emoji" aria-hidden="true">${ch}</span>`;
         }
 
@@ -446,7 +468,12 @@
             resetUI();
             clearAllShapes();
 
-            const types = config.shapes.length ? config.shapes : ['smile'];
+            const types = config.shapes.length ? config.shapes : ['face1'];
+
+            state.activeColors = {};
+            types.forEach((t, idx) => {
+                state.activeColors[t] = PALETTE[idx % PALETTE.length];
+            });
 
             let minC = parseInt(config.min);
             let maxC = parseInt(config.max);
@@ -464,7 +491,8 @@
 
             generateLayout(tempItems);
 
-            const msgHtml = `${getEmojiHTML(state.target)} は いくつ？`;
+            const targetColor = config.colorVar === 'on' ? state.activeColors[state.target] : 'inherit';
+            const msgHtml = `<span style="color: ${targetColor}">${getEmojiHTML(state.target)}</span> は いくつ？`;
             document.getElementById('message-overlay').innerHTML = msgHtml;
 
             await wait(1000);
@@ -509,32 +537,54 @@
             const w = area.clientWidth;
             const h = area.clientHeight;
 
-            const basePx = Math.min(Math.max(Math.sqrt((w * h) / (itemTypes.length * 3)), 70), 220);
+            const isStrict = (config.color === 'normal' && config.size === 'uniform');
+            const safetyDivisor = isStrict ? 12 : 6;
+            const basePx = Math.min(Math.max(Math.sqrt((w * h) / (itemTypes.length * safetyDivisor)), 20), 100);
 
             state.layoutItems = [];
             const placed = [];
 
             itemTypes.forEach(type => {
-                const px = config.size === 'random' ? basePx * (0.75 + Math.random() * 0.55) : basePx;
-                let x, y, overlap, tries = 0;
+                const px = config.size === 'random' ? basePx * (0.6 + Math.random() * 0.8) : basePx;
+                const chars = EMOJI[type].length;
+                const itemWidth = px * (chars * 0.5);
+                const itemHeight = px * 1.2;
+                
+                let x, y, overlap, attempts = 0;
 
                 do {
                     overlap = false;
-                    x = Math.random() * (w - px) + px / 2;
-                    y = Math.random() * (h - px) + px / 2;
+                    x = Math.random() * (w - itemWidth) + itemWidth / 2;
+                    y = Math.random() * (h - itemHeight) + itemHeight / 2;
+                    
                     for (let p of placed) {
-                        const dist = Math.sqrt((x - p.x) ** 2 + (y - p.y) ** 2);
-                        if (dist < (px + p.px) / 2 * 1.05) {
-                            overlap = true;
-                            break;
+                        if (isStrict) {
+                            const l1 = x - itemWidth / 2, r1 = x + itemWidth / 2;
+                            const t1 = y - itemHeight / 2, b1 = y + itemHeight / 2;
+                            const l2 = p.x - p.w / 2, r2 = p.x + p.w / 2;
+                            const t2 = p.y - p.h / 2, b2 = p.y + p.h / 2;
+
+                            if (!(r1 < l2 - 5 || l1 > r2 + 5 || b1 < t2 - 5 || t1 > b2 + 5)) {
+                                overlap = true;
+                                break;
+                            }
+                        } else {
+                            let relaxFactor = Math.max(0.2, 1 - (attempts / 150));
+                            const distX = Math.abs(x - p.x);
+                            const distY = Math.abs(y - p.y);
+                            
+                            if (distX < ((itemWidth + p.w) / 2) * relaxFactor && 
+                                distY < ((itemHeight + p.h) / 2) * relaxFactor) {
+                                overlap = true;
+                                break;
+                            }
                         }
                     }
-                } while (overlap && tries++ < 150);
+                    attempts++;
+                } while (overlap && attempts < (isStrict ? 500 : 250));
 
-                placed.push({ x, y, px });
-
+                placed.push({ x, y, px, w: itemWidth, h: itemHeight });
                 const rot = (config.color === 'rotate') ? Math.floor(Math.random() * 360) : 0;
-
                 state.layoutItems.push({ type, x, y, px, rot });
             });
         }
@@ -553,15 +603,20 @@
             state.layoutItems.forEach(item => {
                 const el = document.createElement('div');
                 el.className = 'shape';
-                el.style.width = item.px + 'px';
-                el.style.height = item.px + 'px';
+                
                 el.style.left = item.x + 'px';
                 el.style.top = item.y + 'px';
                 el.style.transform = `translate(-50%, -50%) rotate(${item.rot || 0}deg)`;
 
+                if (config.colorVar === 'on') {
+                    el.style.color = state.activeColors[item.type];
+                }
+
                 el.innerHTML = getEmojiHTML(item.type);
                 const emo = el.querySelector('.emoji');
-                if (emo) emo.style.fontSize = item.px + 'px';
+                if (emo) {
+                    emo.style.fontSize = item.px + 'px';
+                }
 
                 area.appendChild(el);
             });
@@ -598,11 +653,13 @@
             if (checked.length > 0) {
                 config.shapes = Array.from(checked).map(c => c.value);
             }
+
             config.min = document.getElementById('min-count').value;
             config.max = document.getElementById('max-count').value;
             config.time = parseInt(document.getElementById('display-time').value);
             config.color = document.getElementById('color-rule').value;
             config.size = document.getElementById('size-rule').value;
+            config.colorVar = document.getElementById('color-variation').value;
             config.answer = document.getElementById('answer-mode').value;
         }
 
@@ -617,25 +674,20 @@
 
         document.getElementById('btn-random-select').addEventListener('click', () => {
             const countInput = document.getElementById('random-count');
-            let count = parseInt(countInput.value, 10);
             const checkboxes = Array.from(document.querySelectorAll('.shape-check'));
-
-            if (isNaN(count) || count < 1) count = 1;
-            if (count > checkboxes.length) count = checkboxes.length;
-            countInput.value = count;
+            
+            let targetCount = parseInt(countInput.value) || 7;
+            if (targetCount > checkboxes.length) targetCount = checkboxes.length;
+            if (targetCount < 1) targetCount = 1;
+            countInput.value = targetCount;
 
             checkboxes.forEach(cb => cb.checked = false);
 
-            const shuffled = [...checkboxes];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-
-            for (let i = 0; i < count; i++) {
+            const shuffled = checkboxes.sort(() => 0.5 - Math.random());
+            for (let i = 0; i < targetCount; i++) {
                 shuffled[i].checked = true;
             }
-
+            
             updateConfig();
         });
 
